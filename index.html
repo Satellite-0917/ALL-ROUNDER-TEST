@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALL ROUNDER | TRY♡UT x LOVE</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Bebas+Neue&family=Righteous&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #F0406A;
+    --navy: #1B2A4A;
+    --cream: #f5f0e8;
+    --pink-light: #ffd6e2;
+    --navy-light: #2d4270;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(240,64,106,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(27,42,74,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .screen { display: none; position: relative; z-index: 1; }
+  .screen.active { display: block; }
+
+  /* ── 인트로 ── */
+  #intro {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .intro-badge {
+    background: var(--navy);
+    color: white;
+    font-family: 'Righteous', cursive;
+    font-size: 13px;
+    letter-spacing: 3px;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .intro-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(48px, 12vw, 88px);
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 6px;
+    animation: fadeDown 0.6s 0.1s ease both;
+  }
+
+  .intro-title span { color: var(--pink); }
+
+  .intro-sub {
+    font-family: 'Righteous', cursive;
+    font-size: clamp(16px, 4vw, 22px);
+    color: var(--pink);
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+    animation: fadeDown 0.6s 0.2s ease both;
+  }
+
+  .intro-desc {
+    font-size: 15px;
+    color: var(--navy);
+    opacity: 0.7;
+    line-height: 1.8;
+    max-width: 340px;
+    margin-bottom: 30px;
+    animation: fadeDown 0.6s 0.3s ease both;
+  }
+
+  .animals-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    animation: fadeDown 0.6s 0.4s ease both;
+  }
+
+  .animal-chip {
+    background: white;
+    border: 2px solid var(--pink-light);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+
+  /* ── 이름 입력 ── */
+  .name-input-wrap {
+    width: 100%;
+    max-width: 320px;
+    margin-bottom: 20px;
+    animation: fadeDown 0.6s 0.45s ease both;
+  }
+
+  .name-input-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    opacity: 0.6;
+    margin-bottom: 8px;
+    display: block;
+    text-align: left;
+  }
+
+  .name-input {
+    width: 100%;
+    border: 2px solid var(--pink-light);
+    border-radius: 16px;
+    padding: 14px 18px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    color: var(--navy);
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
+    text-align: center;
+  }
+
+  .name-input::placeholder { color: #ccc; }
+  .name-input:focus { border-color: var(--pink); }
+
+  .start-btn {
+    background: var(--pink);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 18px 52px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 8px 30px rgba(240,64,106,0.35);
+    animation: fadeDown 0.6s 0.5s ease both;
+    letter-spacing: 1px;
+  }
+
+  .start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(240,64,106,0.45);
+  }
+  .start-btn:active { transform: translateY(0); }
+
+  /* ── 퀴즈 ── */
+  #quiz {
+    min-height: 100vh;
+    padding: 30px 20px 60px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .quiz-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .quiz-logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 22px;
+    color: var(--pink);
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .progress-wrap {
+    background: var(--pink-light);
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--pink);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+
+  .progress-text {
+    font-size: 12px;
+    color: var(--navy);
+    opacity: 0.5;
+    margin-top: 8px;
+    text-align: right;
+  }
+
+  .question-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(27,42,74,0.08);
+    animation: slideUp 0.4s ease both;
+  }
+
+  .q-number {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 13px;
+    color: var(--pink);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  .q-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.6;
+  }
+
+  .options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option-btn {
+    background: white;
+    border: 2px solid #e8e2d9;
+    border-radius: 16px;
+    padding: 16px 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: var(--navy);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.5;
+    animation: slideUp 0.4s ease both;
+  }
+
+  .option-btn:nth-child(1) { animation-delay: 0.05s; }
+  .option-btn:nth-child(2) { animation-delay: 0.1s; }
+  .option-btn:nth-child(3) { animation-delay: 0.15s; }
+  .option-btn:nth-child(4) { animation-delay: 0.2s; }
+
+  .option-btn:hover {
+    border-color: var(--pink);
+    background: #fff5f8;
+    transform: translateX(4px);
+  }
+
+  .option-btn.selected {
+    border-color: var(--pink);
+    background: var(--pink);
+    color: white;
+  }
+
+  /* ── 결과 ── */
+  #result {
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .result-top {
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeDown 0.5s ease both;
+  }
+
+  .result-badge {
+    background: var(--navy);
+    color: white;
+    font-family: 'Righteous', cursive;
+    font-size: 11px;
+    letter-spacing: 3px;
+    padding: 5px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+
+  .result-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .result-title span { color: var(--pink); }
+
+  /* ── 캐릭터 카드 ── */
+  .character-card {
+    background: white;
+    border-radius: 28px;
+    padding: 36px 28px 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 40px rgba(27,42,74,0.1);
+    position: relative;
+    overflow: hidden;
+    animation: scaleIn 0.5s 0.1s ease both;
+  }
+
+  .character-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--pink), var(--navy));
+  }
+
+  /* ── 이미지 + 키워드 레이아웃 ── */
+  .char-main-layout {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .char-image-box {
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .char-image {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 16px rgba(240,64,106,0.18));
+  }
+
+  .char-keywords-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .keyword-tag {
+    background: var(--pink-light);
+    color: var(--pink);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    display: inline-block;
+    animation: fadeDown 0.4s ease both;
+  }
+
+  .keyword-tag:nth-child(1) { animation-delay: 0.1s; }
+  .keyword-tag:nth-child(2) { animation-delay: 0.2s; }
+  .keyword-tag:nth-child(3) { animation-delay: 0.3s; }
+  .keyword-tag:nth-child(4) { animation-delay: 0.4s; }
+  .keyword-tag:nth-child(5) { animation-delay: 0.5s; }
+
+  .char-name {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .char-desc {
+    text-align: center;
+    font-size: 14px;
+    color: var(--navy);
+    opacity: 0.6;
+    line-height: 1.7;
+    white-space: pre-line;
+  }
+
+  /* ── 궁합 카드 ── */
+  .match-section {
+    animation: fadeDown 0.5s 0.3s ease both;
+  }
+
+  .match-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 14px;
+    padding-left: 4px;
+  }
+
+  .match-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 16px rgba(27,42,74,0.06);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .match-rank {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .match-rank.rank1 { background: var(--pink); color: white; }
+  .match-rank.rank2 { background: var(--navy); color: white; }
+  .match-rank.rank3 { background: #e8e2d9; color: var(--navy); }
+
+  .match-info { flex: 1; }
+
+  .match-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--pink);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .match-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+
+  .match-reason {
+    font-size: 13px;
+    color: var(--navy);
+    opacity: 0.65;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .match-place {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  /* ── 다시하기 ── */
+  .retry-wrap {
+    text-align: center;
+    margin-top: 30px;
+    animation: fadeDown 0.5s 0.5s ease both;
+  }
+
+  .retry-btn {
+    background: transparent;
+    border: 2px solid var(--navy);
+    color: var(--navy);
+    border-radius: 50px;
+    padding: 14px 40px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .retry-btn:hover {
+    background: var(--navy);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* ── 애니메이션 ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<!-- 인트로 -->
+<div id="intro" class="screen active">
+  <div class="intro-badge">ALL ROUNDER TEST</div>
+  <div class="intro-title">TRY<span>♡</span>UT</div>
+  <div class="intro-sub">× LOVE</div>
+  <p class="intro-desc">
+    나는 훈련장에서 어떤 동물일까?<br>
+    12문항으로 알아보는 나의 훈련장 캐릭터 🏅
+  </p>
+  <div class="animals-row">
+    <span class="animal-chip">🦁 사자</span>
+    <span class="animal-chip">🐢 거북이</span>
+    <span class="animal-chip">🐧 펭귄</span>
+    <span class="animal-chip">🐯 호랑이</span>
+    <span class="animal-chip">🐻 불곰</span>
+    <span class="animal-chip">🦦 수달</span>
+    <span class="animal-chip">🐸 개구리</span>
+    <span class="animal-chip">🦥 나무늘보</span>
+  </div>
+  <div class="name-input-wrap">
+    <label class="name-input-label">이름을 입력해주세요</label>
+    <input class="name-input" id="nameInput" type="text" placeholder="ex) 홍길동" maxlength="10">
+  </div>
+  <button class="start-btn" onclick="startQuiz()">테스트 시작하기 →</button>
+</div>
+
+<!-- 퀴즈 -->
+<div id="quiz" class="screen">
+  <div class="quiz-header">
+    <div class="quiz-logo">TRY♡UT × LOVE</div>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar" style="width:0%"></div>
+    </div>
+    <div class="progress-text" id="progressText">0 / 12</div>
+  </div>
+
+  <div class="question-card" id="questionCard">
+    <div class="q-number" id="qNumber">Q 01</div>
+    <div class="q-text" id="qText"></div>
+  </div>
+
+  <div class="options-grid" id="optionsGrid"></div>
+</div>
+
+<!-- 결과 -->
+<div id="result" class="screen">
+  <div class="result-top">
+    <div class="result-badge">YOUR RESULT</div>
+    <div class="result-title" id="resultTitle">님의 훈련장 동물 유형은?</div>
+  </div>
+
+  <div class="character-card" id="characterCard">
+    <div class="char-main-layout">
+      <div class="char-image-box">
+        <img class="char-image" id="charImage" src="" alt="">
+      </div>
+      <div class="char-keywords-side" id="charKeywords"></div>
+    </div>
+    <div class="char-name" id="charName"></div>
+    <div class="char-desc" id="charDesc"></div>
+  </div>
+
+  <div class="match-section">
+    <div class="match-title">같이 운동해요 🏃</div>
+    <div id="matchCards"></div>
+  </div>
+
+  <div class="retry-wrap">
+    <button class="retry-btn" onclick="restart()">다시 테스트하기</button>
+  </div>
+</div>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwsa979hfs4I4dHlQHAjGZDY4FlSrApUVHAWRv_O4Y9Sd2-XWx-zbdSTP59okq15GNg/exec';
+
+const QUESTIONS = [
+  {
+    text: "경기 전날 밤, 나는?",
+    options: [
+      { text: "내일 인터뷰 멘트 미리 생각해둔다", animal: "lion" },
+      { text: "워밍업 루틴 머릿속으로 복습한다", animal: "turtle" },
+      { text: "팀원이랑 통화하면서 긴장 푼다", animal: "penguin" },
+      { text: "취침 시간 칼같이 지키고 잔다", animal: "tiger" }
+    ]
+  },
+  {
+    text: "훈련 끝나고 제일 먼저 하는 건?",
+    options: [
+      { text: "탈의실에서 오늘 훈련 얘기 풀기", animal: "penguin" },
+      { text: "다음 훈련 일정 미리 확인", animal: "tiger" },
+      { text: "회식 있으면 제일 먼저 단톡 확인", animal: "bear" },
+      { text: "자리 털고 바로 집 직행", animal: "sloth" }
+    ]
+  },
+  {
+    text: "원정 경기 숙소에서 자유시간, 나는?",
+    options: [
+      { text: "유명 맛집 찾아서 팀원 모집", animal: "otter" },
+      { text: "방에서 유튜브 틀어놓고 뒹굴", animal: "sloth" },
+      { text: "근처 관광지 혼자라도 다녀옴", animal: "lion" },
+      { text: "내일 경기장 동선 미리 파악", animal: "turtle" }
+    ]
+  },
+  {
+    text: "훈련 중 컨디션이 안 좋을 때 나는?",
+    options: [
+      { text: "\"오늘 날씨가 좀 이상하지 않아?\"", animal: "frog" },
+      { text: "페이스 조절하면서 끝까지 한다", animal: "tiger" },
+      { text: "팀원한테 말 걸면서 기분 전환", animal: "penguin" },
+      { text: "조용히 스트레칭 더 하면서 버팀", animal: "turtle" }
+    ]
+  },
+  {
+    text: "팀 분위기가 가라앉았을 때 나는?",
+    options: [
+      { text: "분위기 파악하고 먼저 말 건다", animal: "otter" },
+      { text: "나도 같이 조용해진다", animal: "sloth" },
+      { text: "회식 또는 야식 제안한다", animal: "bear" },
+      { text: "딱히 신경 안 쓰고 내 훈련에 집중", animal: "tiger" }
+    ]
+  },
+  {
+    text: "경기 후 인터뷰 요청이 들어왔다, 나는?",
+    options: [
+      { text: "이미 머릿속에 할 말 준비돼 있음", animal: "lion" },
+      { text: "팀원 공 돌리는 멘트 자동으로 나옴", animal: "otter" },
+      { text: "귀찮은데... 빨리 끝내고 밥 먹으러 가야지", animal: "bear" },
+      { text: "긴장돼서 짧게 끝냄", animal: "frog" }
+    ]
+  },
+  {
+    text: "시즌 오프가 시작됐다, 나는?",
+    options: [
+      { text: "첫 주는 완전 방전 모드", animal: "sloth" },
+      { text: "그래도 가벼운 운동 루틴은 유지", animal: "tiger" },
+      { text: "못 만났던 사람들 약속 잡기 바쁨", animal: "penguin" },
+      { text: "\"이번엔 진짜 쉬어야지\" 하다가 유튜브", animal: "frog" }
+    ]
+  },
+  {
+    text: "팀 회식 날, 나는?",
+    options: [
+      { text: "제일 먼저 도착해서 자리 잡음", animal: "bear" },
+      { text: "술자리 분위기 메이커 자처", animal: "otter" },
+      { text: "적당히 먹고 일찍 들어감", animal: "tiger" },
+      { text: "2차도 3차도 자연스럽게 합류", animal: "penguin" }
+    ]
+  },
+  {
+    text: "나의 워밍업 스타일은?",
+    options: [
+      { text: "짧고 굵게, 빨리 본론으로", animal: "lion" },
+      { text: "꼼꼼하게 오래, 몸이 완벽히 풀려야 함", animal: "turtle" },
+      { text: "옆 사람이랑 얘기하면서 자연스럽게", animal: "penguin" },
+      { text: "루틴대로 정확히, 시간도 정해져 있음", animal: "tiger" }
+    ]
+  },
+  {
+    text: "경기에서 졌을 때 나는?",
+    options: [
+      { text: "\"오늘 날씨가...\" \"몸 상태가...\"", animal: "frog" },
+      { text: "팀원들 달래주느라 바쁨", animal: "otter" },
+      { text: "일단 맛있는 거 먹으러 가자고 함", animal: "bear" },
+      { text: "말 없이 집에 가서 혼자 삭힘", animal: "sloth" }
+    ]
+  },
+  {
+    text: "훈련 스케줄이 갑자기 바뀌었다, 나는?",
+    options: [
+      { text: "적응 잘 함, 원래 즉흥적임", animal: "lion" },
+      { text: "멘탈 살짝 흔들림, 루틴이 중요한 편", animal: "turtle" },
+      { text: "\"왜 바꿨어?\" 팀원한테 먼저 물어봄", animal: "penguin" },
+      { text: "\"에이 그냥 쉬는 거 아니야?\"", animal: "frog" }
+    ]
+  },
+  {
+    text: "나를 가장 잘 표현하는 한 마디는?",
+    options: [
+      { text: "\"오늘도 멋있었지?\" 🦁", animal: "lion" },
+      { text: "\"준비가 실력이다\" 🐢", animal: "turtle" },
+      { text: "\"우리 뭐 먹을까?\" 🐻", animal: "bear" },
+      { text: "\"내일부터 열심히 해야지\" 🦥", animal: "sloth" }
+    ]
+  }
+];
+
+const ANIMALS = {
+  lion: {
+    name: "🦁 카메라 앞의 사자",
+    desc: "경기보다 인터뷰가 더 빛나는 타입.\n어딜 가도 주인공 기질이 넘쳐흘러.",
+    keywords: ["존재감 뿜뿜", "인터뷰 준비 완료", "주인공 기질", "자신감 넘침", "경기보다 카메라"],
+    image: "카메라_앞의_사자.png",
+    matches: [
+      { rank: 1, label: "같은 유형", animal: "lion", name: "🦁 카메라 앞의 사자", reason: "서로가 서로의 존재를 알아보는 사이. 같이 있으면 그 자리가 자동으로 화보 현장.", place: "포토 스팟 카페" },
+      { rank: 2, label: "비슷한 유형", animal: "otter", name: "🦦 팀 분위기 수달", reason: "어딜 가도 분위기 주도하는 둘. 에너지 맞추는 데 노력이 필요 없어.", place: "루프탑 카페" },
+      { rank: 3, label: "다르지만 잘 맞는 유형", animal: "turtle", name: "🐢 워밍업만 1시간 거북이", reason: "사자의 화려함을 거북이가 묵묵히 받쳐줌. 사자가 빛날 때 거북이는 다 준비해놓는 타입.", place: "한강 피크닉" }
+    ]
+  },
+  turtle: {
+    name: "🐢 워밍업만 1시간 거북이",
+    desc: "준비 과정이 곧 훈련.\n느긋하지만 꼼꼼한 완벽주의자.",
+    keywords: ["준비가 실력", "느긋한 완벽주의", "루틴의 신", "스트레칭 장인", "천천히 but 확실히"],
+    image: "위밍업만_1시간_거북이.png",
+    matches: [
+      { rank: 1, label: "같은 유형", animal: "turtle", name: "🐢 워밍업만 1시간 거북이", reason: "둘 다 서두르는 법이 없어. 재촉 없는 사이, 그 자체로 편안함.", place: "보드게임 카페" },
+      { rank: 2, label: "비슷한 유형", animal: "sloth", name: "🦥 원정 경기 나무늘보", reason: "느긋한 페이스가 딱 맞음. 서로 재촉하지 않으니 오히려 더 편한 사이.", place: "온천 또는 찜질방" },
+      { rank: 3, label: "다르지만 잘 맞는 유형", animal: "otter", name: "🦦 팀 분위기 수달", reason: "수달이 거북이 텐션 올려주고, 거북이가 수달 페이스 잡아줌.", place: "실내 클라이밍" }
+    ]
+  },
+  penguin: {
+    name: "🐧 탈의실 수다왕 펭귄",
+    desc: "훈련 끝나면 탈의실에서 제일 오래 있음.\n수다가 곧 쿨다운.",
+    keywords: ["훈련 끝나도 못 감", "수다 본능", "탈의실 터줏대감", "인싸 기질", "공감 능력 만렙"],
+    image: "탈의실_수다왕_펭귄.png",
+    matches: [
+      { rank: 1, label: "같은 유형", animal: "penguin", name: "🐧 탈의실 수다왕 펭귄", reason: "말할 사람이 생겼다! 둘 다 수다 본능이라 대화가 끊길 일이 없어.", place: "포장마차 또는 야시장" },
+      { rank: 2, label: "비슷한 유형", animal: "bear", name: "🐻 회식 절대 안 빠지는 불곰", reason: "사람 좋아하고 먹는 거 좋아하는 공통점. 같이 있으면 주변에 사람이 모임.", place: "고깃집" },
+      { rank: 3, label: "다르지만 잘 맞는 유형", animal: "lion", name: "🦁 카메라 앞의 사자", reason: "사자가 펭귄한테 집중력 불어넣어 줌. 펭귄은 사자 주변에 사람 모아줌.", place: "스포츠 관람" }
+    ]
+  },
+  tiger: {
+    name: "🐯 자기관리 호랑이",
+    desc: "식단, 수면, 루틴 다 철저.\n흐트러짐 없는 자기관리 끝판왕.",
+    keywords: ["식단 철저", "수면 시간 칼같이", "루틴 = 생명", "자기관리 끝판왕", "흐트러짐 없음"],
+    image: "자기관리_호랑이.png",
+    matches: [
+      { rank: 1, label: "같은 유형", animal: "tiger", name: "🐯 자기관리 호랑이", reason: "서로의 루틴 존중해주는 사이. 같이 있으면 자연스럽게 시너지가 남.", place: "건강한 브런치 카페" },
+      { rank: 2, label: "비슷한 유형", animal: "turtle", name: "🐢 워밍업만 1시간 거북이", reason: "둘 다 준비성 철저하고 루틴 중요시함. 계획 공유하는 것만으로도 시너지.", place: "러닝 코스" },
+      { rank: 3, label: "다르지만 잘 맞는 유형", animal: "frog", name: "🐸 날씨 탓하는 개구리", reason: "호랑이가 개구리 자극하고, 개구리는 호랑이 너무 빡빡해지지 않게 풀어줌.", place: "테니스 또는 배드민턴" }
+    ]
+  },
+  bear: {
+    name: "🐻 회식 절대 안 빠지는 불곰",
+    desc: "팀 회식 개근, 다음날 훈련도 개근.\n인간미 폭발하는 팀의 에너지원.",
+    keywords: ["회식 개근상", "인간미 폭발", "먹는 거 진심", "팀워크 충만", "다음날 훈련도 개근"],
+    image: "회식_절대_안_빠지는_불곰.png",
+    matches: [
+      { rank: 1, label: "같은 유형", animal: "bear", name: "🐻 회식 절대 안 빠지는 불곰", reason: "회식 첫 번째 자리 두 개는 이미 예약된 거나 마찬가지. 찰떡 케미.", place: "고깃집 2차까지" },
+      { rank: 2, label: "비슷한 유형", animal: "penguin", name: "🐧 탈의실 수다왕 펭귄", reason: "사교성 비슷해서 같이 있으면 대화가 끊길 일이 없음.", place: "포장마차 또는 야시장" },
+      { rank: 3, label: "다르지만 잘 맞는 유형", animal: "sloth", name: "🦥 원정 경기 나무늘보", reason: "불곰이 나무늘보 챙겨서 데리고 다님. 불곰 덕분에 나무늘보 밖에 나옴.", place: "브런치 카페" }
+    ]
+  },
+  otter: {
+    name: "🦦 팀 분위기 수달",
+    desc: "훈련 분위기 처지면 제일 먼저 텐션 올리는 사람.\n팀의 살아있는 충전기.",
+    keywords: ["분위기 메이커", "텐션 충전기", "먼저 말 거는 타입", "에너지 무한", "팀의 활력소"],
+    image: "팀_분위기_수달.png",
+    matches: [
+      { rank: 1, label: "같은 유형", animal: "otter", name: "🦦 팀 분위기 수달", reason: "에너지 맞는 둘이 만나면 그 공간 자체가 파티. 서로 치켜세워주는 궁합.", place: "볼링장" },
+      { rank: 2, label: "비슷한 유형", animal: "lion", name: "🦁 카메라 앞의 사자", reason: "둘 다 존재감 강하고 에너지 넘침. 같이 있으면 그 공간이 활기참.", place: "루프탑 카페" },
+      { rank: 3, label: "다르지만 잘 맞는 유형", animal: "tiger", name: "🐯 자기관리 호랑이", reason: "수달이 분위기 만들고 호랑이가 방향 잡아줌. 수달은 에너지 낭비 줄이고 호랑이는 웃음 찾고.", place: "방탈출" }
+    ]
+  },
+  frog: {
+    name: "🐸 날씨 탓하는 개구리",
+    desc: "컨디션 핑계 장인.\n그래도 결국엔 다 함.",
+    keywords: ["핑계 장인", "컨디션 예민", "오늘은 좀 그래", "날씨 탓 전문가", "그래도 결국 함"],
+    image: "날씨_탓하는_개구리.png",
+    matches: [
+      { rank: 1, label: "같은 유형", animal: "frog", name: "🐸 날씨 탓하는 개구리", reason: "서로의 핑계를 판단 없이 들어주는 사이. \"맞아 오늘 진짜 날씨가 이상해\"", place: "넷플릭스 홈파티" },
+      { rank: 2, label: "비슷한 유형", animal: "sloth", name: "🦥 원정 경기 나무늘보", reason: "핑계와 느긋함의 환상 조합. 서로 \"오늘은 쉬어도 돼\"를 주고받는 사이.", place: "넷플릭스 홈파티" },
+      { rank: 3, label: "다르지만 잘 맞는 유형", animal: "bear", name: "🐻 회식 절대 안 빠지는 불곰", reason: "불곰이 개구리 핑계 들어주면서도 결국 밖으로 끌고 나옴. 생각보다 즐거운 하루.", place: "야외 스포츠 체험" }
+    ]
+  },
+  sloth: {
+    name: "🦥 원정 경기 나무늘보",
+    desc: "원정만 가면 관광 모드.\n쉬는 게 곧 훈련이라는 철학.",
+    keywords: ["원정은 관광이지", "느긋함 그 자체", "쉬는 게 훈련", "방전 전문가", "일단 누워"],
+    image: "원정_경기_나무늘보.png",
+    matches: [
+      { rank: 1, label: "같은 유형", animal: "sloth", name: "🦥 원정 경기 나무늘보", reason: "말 안 해도 통하는 느긋함. 같이 있으면 아무것도 안 해도 불편하지 않은 사이.", place: "온천 또는 찜질방" },
+      { rank: 2, label: "비슷한 유형", animal: "frog", name: "🐸 날씨 탓하는 개구리", reason: "느슨함의 동질감. 서로 핑계 대주고 쉬어가는 걸 허락해주는 사이.", place: "넷플릭스 홈파티" },
+      { rank: 3, label: "다르지만 잘 맞는 유형", animal: "penguin", name: "🐧 탈의실 수다왕 펭귄", reason: "펭귄이 나무늘보 텐션 올려줌. 나무늘보는 펭귄 덕분에 어느새 같이 수다 중.", place: "수다 카페" }
+    ]
+  }
+};
+
+let scores = {};
+let currentQ = 0;
+let userName = '';
+
+function startQuiz() {
+  const input = document.getElementById('nameInput').value.trim();
+  if (!input) {
+    document.getElementById('nameInput').focus();
+    document.getElementById('nameInput').style.borderColor = 'var(--pink)';
+    document.getElementById('nameInput').placeholder = '이름을 입력해주세요 😊';
+    return;
+  }
+  userName = input;
+  Object.keys(ANIMALS).forEach(k => scores[k] = 0);
+  currentQ = 0;
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const pct = (currentQ / QUESTIONS.length) * 100;
+
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = currentQ + ' / ' + QUESTIONS.length;
+  document.getElementById('qNumber').textContent = 'Q ' + String(currentQ + 1).padStart(2, '0');
+  document.getElementById('qText').textContent = q.text;
+
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'slideUp 0.4s ease both';
+
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt.text;
+    btn.style.animationDelay = (0.05 + i * 0.05) + 's';
+    btn.onclick = () => selectOption(opt.animal, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function selectOption(animal, btn) {
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  scores[animal] = (scores[animal] || 0) + 1;
+
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < QUESTIONS.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }, 350);
+}
+
+function showResult() {
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const topAnimal = sorted[0][0];
+  const data = ANIMALS[topAnimal];
+
+  // 결과 제목에 이름 넣기
+  document.getElementById('resultTitle').innerHTML = `<span>${userName}</span>님의 훈련장 동물 유형은?`;
+
+  // 캐릭터 정보
+  document.getElementById('charImage').src = data.image;
+  document.getElementById('charName').textContent = data.name;
+  document.getElementById('charDesc').textContent = data.desc;
+
+  // 키워드 태그 (사이드)
+  const kw = document.getElementById('charKeywords');
+  kw.innerHTML = '';
+  data.keywords.forEach((k, i) => {
+    const tag = document.createElement('div');
+    tag.className = 'keyword-tag';
+    tag.textContent = k;
+    tag.style.animationDelay = (i * 0.1) + 's';
+    kw.appendChild(tag);
+  });
+
+  // 궁합 카드
+  const matchContainer = document.getElementById('matchCards');
+  matchContainer.innerHTML = '';
+  data.matches.forEach(m => {
+    const card = document.createElement('div');
+    card.className = 'match-card';
+    card.innerHTML = `
+      <div class="match-rank rank${m.rank}">${m.rank}</div>
+      <div class="match-info">
+        <div class="match-label">${m.label}</div>
+        <div class="match-name">${m.name}</div>
+        <div class="match-reason">${m.reason}</div>
+        <div class="match-place">📍 ${m.place}</div>
+      </div>
+    `;
+    matchContainer.appendChild(card);
+  });
+
+  showScreen('result');
+
+  // 구글 시트 저장
+  saveToSheet(userName, data.name);
+}
+
+function saveToSheet(name, result) {
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, result })
+  }).catch(err => console.log('시트 저장 오류:', err));
+}
+
+function restart() {
+  scores = {};
+  currentQ = 0;
+  userName = '';
+  document.getElementById('nameInput').value = '';
+  showScreen('intro');
+}
+</script>
+</body>
+</html>
