@@ -983,44 +983,31 @@ async function downloadResult() {
   }
 
   try {
-    // 이미지를 base64로 변환해서 CORS 우회
+    // 이미지 완전 로드 확인 후 캡처
     const img = document.getElementById('charImage');
-    const originalSrc = img.src;
-    await new Promise((resolve, reject) => {
-      const tempImg = new Image();
-      tempImg.crossOrigin = 'anonymous';
-      tempImg.onload = () => {
-        const cvs = document.createElement('canvas');
-        cvs.width = tempImg.naturalWidth;
-        cvs.height = tempImg.naturalHeight;
-        cvs.getContext('2d').drawImage(tempImg, 0, 0);
-        try {
-          img.src = cvs.toDataURL('image/png');
-          resolve();
-        } catch(e) {
-          resolve(); // CORS 실패해도 진행
-        }
-      };
-      tempImg.onerror = () => resolve();
-      tempImg.src = originalSrc + '?t=' + Date.now();
-    });
+    if (!img.complete || img.naturalWidth === 0) {
+      await new Promise((resolve) => {
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    }
+
+    // 추가로 한 프레임 더 기다려서 렌더링 완료 보장
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
     const canvas = await html2canvas(card, {
       scale: 2,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
+      imageTimeout: 15000,
       logging: false,
       onclone: (doc) => {
-        // 클론에서 키워드 애니메이션 정지
         doc.querySelectorAll('.keyword-tag').forEach(el => {
           el.style.animation = 'none';
         });
       }
     });
-
-    // 원본 src 복원
-    img.src = originalSrc;
 
     const link = document.createElement('a');
     link.download = `all_rounder_test_${userName}.png`;
