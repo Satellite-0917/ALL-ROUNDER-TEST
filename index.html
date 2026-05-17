@@ -357,7 +357,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    filter: drop-shadow(0 8px 20px rgba(240,64,106,0.2));
     z-index: 2;
   }
 
@@ -996,7 +995,7 @@ async function downloadResult() {
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
     const canvas = await html2canvas(card, {
-      scale: 2,
+      scale: 3,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
