@@ -46,15 +46,8 @@ body {
     z-index: 0;
   }
 
-.screen { 
-  display: none; 
-  position: fixed; 
-  top: 0; left: 0; right: 0; bottom: 0;
-  overflow-y: auto; 
-  background: var(--cream);
-  z-index: 10; 
-}
-.screen.active { display: block; z-index: 20; }
+.screen { display: none; position: relative; z-index: 1; }
+.screen.active { display: block; }
 
   /* ── 인트로 ── */
   #intro {
@@ -840,6 +833,7 @@ function showScreen(id) {
   const target = document.getElementById(id);
   target.classList.add('active');
   target.style.visibility = 'visible';
+  window.scrollTo(0, 0);
 }
 
 function renderQuestion() {
