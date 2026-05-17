@@ -357,6 +357,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    filter: drop-shadow(0 8px 20px rgba(240,64,106,0.2));
     z-index: 2;
   }
 
@@ -523,29 +524,7 @@
     50% { transform: translateX(-50%) translateY(-6px); }
   }
 
-  /* ── 다운로드 버튼 ── */
-  .download-btn {
-    background: var(--navy);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 14px 32px;
-    font-family: 'Pretendard', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-bottom: 12px;
-    display: block;
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto 12px;
-  }
 
-  .download-btn:hover {
-    background: var(--navy-light);
-    transform: translateY(-2px);
-  }
 
   .retry-wrap {
     text-align: center;
@@ -625,7 +604,6 @@
   </div>
 
   <div class="retry-wrap">
-    <button class="download-btn" onclick="downloadResult()">결과 이미지 저장 📸</button>
     <button class="retry-btn" onclick="restart()">다시 테스트하기</button>
   </div>
 </div>
@@ -964,62 +942,6 @@ function saveToSheet(name, result, match1, match2, match3) {
   }).catch(err => console.log('시트 저장 오류:', err));
 }
 
-async function downloadResult() {
-  const card = document.getElementById('characterCard');
-  const btn = document.querySelector('.download-btn');
-  btn.textContent = '저장 중...';
-  btn.disabled = true;
-
-  // html2canvas CDN 동적 로드
-  if (!window.html2canvas) {
-    await new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-      s.onload = resolve;
-      s.onerror = reject;
-      document.head.appendChild(s);
-    });
-  }
-
-  try {
-    // 이미지 완전 로드 확인 후 캡처
-    const img = document.getElementById('charImage');
-    if (!img.complete || img.naturalWidth === 0) {
-      await new Promise((resolve) => {
-        img.onload = resolve;
-        img.onerror = resolve;
-      });
-    }
-
-    // 추가로 한 프레임 더 기다려서 렌더링 완료 보장
-    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-
-    const canvas = await html2canvas(card, {
-      scale: 3,
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: '#ffffff',
-      imageTimeout: 15000,
-      logging: false,
-      onclone: (doc) => {
-        doc.querySelectorAll('.keyword-tag').forEach(el => {
-          el.style.animation = 'none';
-        });
-      }
-    });
-
-    const link = document.createElement('a');
-    link.download = `all_rounder_test_${userName}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  } catch(e) {
-    alert('이미지 저장에 실패했어요. 다시 시도해주세요.');
-    console.error(e);
-  }
-
-  btn.textContent = '결과 이미지 저장 📸';
-  btn.disabled = false;
-}
 
 function restart() {
   scores = {};
