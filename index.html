@@ -4,21 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ALL ROUNDER | TRY♡UT x LOVE</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Bebas+Neue&family=Righteous&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Righteous&display=swap" rel="stylesheet">
 <style>
   :root {
     --pink: #F0406A;
     --navy: #1B2A4A;
-    --cream: #f5f0e8;
-    --pink-light: #ffd6e2;
+    --cream: #f7f3ee;
+    --pink-light: #fce8ee;
+    --peach-light: #fff2ea;
+    --mint-light: #eaf5f2;
+    --lavender-light: #eeeaf7;
+    --yellow-light: #fdf8e8;
     --navy-light: #2d4270;
     --white: #ffffff;
+    --text-sub: #8a8fa8;
+    --border: #ece7df;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--cream);
     min-height: 100vh;
     overflow-x: hidden;
@@ -29,8 +36,10 @@
     position: fixed;
     inset: 0;
     background-image:
-      radial-gradient(circle at 20% 20%, rgba(240,64,106,0.06) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(27,42,74,0.06) 0%, transparent 50%);
+      radial-gradient(circle at 15% 20%, rgba(240,64,106,0.04) 0%, transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(27,42,74,0.04) 0%, transparent 45%),
+      radial-gradient(circle at 80% 15%, rgba(255,165,100,0.03) 0%, transparent 40%),
+      radial-gradient(circle at 20% 85%, rgba(80,180,160,0.03) 0%, transparent 40%);
     pointer-events: none;
     z-index: 0;
   }
@@ -134,7 +143,7 @@
     border: 2px solid var(--pink-light);
     border-radius: 16px;
     padding: 14px 18px;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard', sans-serif;
     font-size: 15px;
     color: var(--navy);
     background: white;
@@ -152,7 +161,7 @@
     border: none;
     border-radius: 50px;
     padding: 18px 52px;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard', sans-serif;
     font-size: 17px;
     font-weight: 700;
     cursor: pointer;
@@ -222,10 +231,11 @@
 
   .q-number {
     font-family: 'Bebas Neue', cursive;
-    font-size: 13px;
+    font-size: 20px;
     color: var(--pink);
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     margin-bottom: 12px;
+    font-weight: 400;
   }
 
   .q-text {
@@ -246,7 +256,7 @@
     border: 2px solid #e8e2d9;
     border-radius: 16px;
     padding: 16px 20px;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard', sans-serif;
     font-size: 14px;
     color: var(--navy);
     cursor: pointer;
@@ -263,7 +273,7 @@
 
   .option-btn:hover {
     border-color: var(--pink);
-    background: #fff5f8;
+    background: var(--pink-light);
     transform: translateX(4px);
   }
 
@@ -271,6 +281,7 @@
     border-color: var(--pink);
     background: var(--pink);
     color: white;
+    font-weight: 700;
   }
 
   /* ── 결과 ── */
@@ -360,16 +371,19 @@
   }
 
   .keyword-tag {
-    background: var(--pink-light);
-    color: var(--pink);
     font-size: 12px;
     font-weight: 700;
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
     white-space: nowrap;
     display: inline-block;
     animation: fadeDown 0.4s ease both;
   }
+  .keyword-tag.kw0 { background: var(--pink-light); color: var(--pink); }
+  .keyword-tag.kw1 { background: var(--peach-light); color: #d4631a; }
+  .keyword-tag.kw2 { background: var(--mint-light); color: #2a8a72; }
+  .keyword-tag.kw3 { background: var(--lavender-light); color: #6a4fc8; }
+  .keyword-tag.kw4 { background: var(--yellow-light); color: #a07820; }
 
   .keyword-tag:nth-child(1) { animation-delay: 0.1s; }
   .keyword-tag:nth-child(2) { animation-delay: 0.2s; }
@@ -433,15 +447,15 @@
 
   .match-rank.rank1 { background: var(--pink); color: white; }
   .match-rank.rank2 { background: var(--navy); color: white; }
-  .match-rank.rank3 { background: #e8e2d9; color: var(--navy); }
+  .match-rank.rank3 { background: var(--mint-light); color: var(--navy); }
 
   .match-info { flex: 1; }
 
   .match-label {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
-    color: var(--pink);
-    letter-spacing: 1px;
+    color: var(--text-sub);
+    letter-spacing: 0.5px;
     margin-bottom: 4px;
   }
 
@@ -472,20 +486,13 @@
     font-weight: 500;
   }
 
-  /* ── 다시하기 ── */
-  .retry-wrap {
-    text-align: center;
-    margin-top: 30px;
-    animation: fadeDown 0.5s 0.5s ease both;
-  }
-
   .retry-btn {
     background: transparent;
     border: 2px solid var(--navy);
     color: var(--navy);
     border-radius: 50px;
     padding: 14px 40px;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard', sans-serif;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
@@ -512,6 +519,45 @@
   @keyframes scaleIn {
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes floatKw {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-7px); }
+  }
+
+  /* ── 다운로드 버튼 ── */
+  .download-btn {
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 32px;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 12px;
+  }
+
+  .download-btn:hover {
+    background: var(--navy-light);
+    transform: translateY(-2px);
+  }
+
+  .retry-wrap {
+    text-align: center;
+    margin-top: 30px;
+    animation: fadeDown 0.5s 0.5s ease both;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
   }
 </style>
 </head>
@@ -563,20 +609,17 @@
 
 <!-- 결과 -->
 <div id="result" class="screen">
-  <div class="result-top">
-    <div class="result-badge">YOUR RESULT</div>
-    <div class="result-title" id="resultTitle">님의 훈련장 동물 유형은?</div>
-  </div>
-
   <div class="character-card" id="characterCard">
-    <div class="char-main-layout">
-      <div class="char-image-box">
-        <img class="char-image" id="charImage" src="" alt="">
-      </div>
-      <div class="char-keywords-side" id="charKeywords"></div>
+    <div class="result-badge-wrap">
+      <div class="result-badge">YOUR RESULT</div>
     </div>
+    <div class="result-title" id="resultTitle">님의 훈련장 동물 유형은?</div>
     <div class="char-name" id="charName"></div>
     <div class="char-desc" id="charDesc"></div>
+    <div class="char-image-wrap">
+      <img class="char-image" id="charImage" src="" alt="">
+      <div class="char-keywords" id="charKeywords"></div>
+    </div>
   </div>
 
   <div class="match-section">
@@ -585,12 +628,13 @@
   </div>
 
   <div class="retry-wrap">
+    <button class="download-btn" onclick="downloadResult()">결과 이미지 저장 📸</button>
     <button class="retry-btn" onclick="restart()">다시 테스트하기</button>
   </div>
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwsa979hfs4I4dHlQHAjGZDY4FlSrApUVHAWRv_O4Y9Sd2-XWx-zbdSTP59okq15GNg/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwO0IKR6r4NEzpFMnum1VIMzctiqAy44oVXxWWns81eQ9STsNuKR5PQBhGfK4ITAeU/exec';
 
 const QUESTIONS = [
   {
@@ -878,7 +922,7 @@ function showResult() {
   kw.innerHTML = '';
   data.keywords.forEach((k, i) => {
     const tag = document.createElement('div');
-    tag.className = 'keyword-tag';
+    tag.className = `keyword-tag kw${i}`;
     tag.textContent = k;
     tag.style.animationDelay = (i * 0.1) + 's';
     kw.appendChild(tag);
@@ -905,16 +949,58 @@ function showResult() {
   showScreen('result');
 
   // 구글 시트 저장
-  saveToSheet(userName, data.name);
+  saveToSheet(
+    userName,
+    data.name,
+    data.matches[0].name,
+    data.matches[1].name,
+    data.matches[2].name
+  );
 }
 
-function saveToSheet(name, result) {
+function saveToSheet(name, result, match1, match2, match3) {
   fetch(SCRIPT_URL, {
     method: 'POST',
     mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, result })
+    body: JSON.stringify({ name, result, match1, match2, match3 })
   }).catch(err => console.log('시트 저장 오류:', err));
+}
+
+async function downloadResult() {
+  const card = document.getElementById('characterCard');
+  const btn = document.querySelector('.download-btn');
+  btn.textContent = '저장 중...';
+  btn.disabled = true;
+
+  // html2canvas CDN 동적 로드
+  if (!window.html2canvas) {
+    await new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  try {
+    const canvas = await html2canvas(card, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false
+    });
+    const link = document.createElement('a');
+    link.download = `tryout_love_결과.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } catch(e) {
+    alert('이미지 저장에 실패했어요. 다시 시도해주세요.');
+  }
+
+  btn.textContent = '결과 이미지 저장 📸';
+  btn.disabled = false;
 }
 
 function restart() {
