@@ -28,7 +28,7 @@
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--cream);
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
   }
 
   body::before {
@@ -44,7 +44,7 @@
     z-index: 0;
   }
 
-  .screen { display: none; position: relative; z-index: 1; }
+  .screen { display: none; position: fixed; inset: 0; overflow-y: auto; z-index: 1; }
   .screen.active { display: block; }
 
   /* ── 인트로 ── */
@@ -536,8 +536,8 @@
   <div class="intro-title">TRY<span>♡</span>UT</div>
   <div class="intro-sub">× LOVE</div>
   <p class="intro-desc">
-    나는 훈련장에서 어떤 동물일까?<br>
-    12문항으로 알아보는 나의 훈련장 캐릭터 🏅
+    경기장 밖 나는 어떤 모습일까?<br>
+    12문항으로 알아보는 나의 경기장 밖 캐릭터 🏅
   </p>
   <div class="animals-row">
     <span class="animal-chip">🦁 사자</span>
@@ -579,7 +579,7 @@
   <div class="character-card" id="characterCard">
     <div class="result-top">
       <div class="result-badge">YOUR RESULT</div>
-      <div class="result-title" id="resultTitle">님의 훈련장 동물 유형은?</div>
+      <div class="result-title" id="resultTitle"> 님의 경기장 밖 모습은?</div>
     </div>
     <div class="char-image-wrap">
       <img class="char-image" id="charImage" src="" alt="">
@@ -590,7 +590,7 @@
   </div>
 
   <div class="match-section">
-    <div class="match-title">같이 운동해요 🏃</div>
+    <div class="match-title">함께하면 좋은 유형 🏃</div>
     <div id="matchCards"></div>
   </div>
 
@@ -720,7 +720,7 @@ const ANIMALS = {
     keywords: ["존재감 뿜뿜", "인터뷰 준비 완료", "주인공 기질", "자신감 넘침", "경기보다 카메라"],
     image: "카메라_앞의_사자.png",
     matches: [
-      { rank: 1, label: "같은 유형", animal: "lion", name: "🦁 카메라 앞의 사자", reason: "서로가 서로의 존재를 알아보는 사이. 같이 있으면 그 자리가 자동으로 화보 현장.", place: "셀프 사진관" },
+      { rank: 1, label: "잘 맞는 유형", animal: "lion", name: "🦁 카메라 앞의 사자", reason: "서로가 서로의 존재를 알아보는 사이. 같이 있으면 그 자리가 자동으로 화보 현장.", place: "셀프 사진관" },
       { rank: 2, label: "비슷한 유형", animal: "otter", name: "🦦 팀 분위기 수달", reason: "어딜 가도 분위기 주도하는 둘. 에너지 맞추는 데 노력이 필요 없어.", place: "드로잉 카페" },
       { rank: 3, label: "다르지만 잘 맞는 유형", animal: "turtle", name: "🐢 워밍업만 1시간 거북이", reason: "사자의 화려함을 거북이가 묵묵히 받쳐줌. 사자가 빛날 때 거북이는 다 준비해놓는 타입.", place: "한강 피크닉" }
     ]
@@ -731,7 +731,7 @@ const ANIMALS = {
     keywords: ["준비가 실력", "느긋한 완벽주의", "루틴의 신", "스트레칭 장인", "천천히 but 확실히"],
     image: "위밍업만_1시간_거북이.png",
     matches: [
-      { rank: 1, label: "같은 유형", animal: "turtle", name: "🐢 워밍업만 1시간 거북이", reason: "둘 다 서두르는 법이 없어. 재촉 없는 사이, 그 자체로 편안함.", place: "프라이빗 영화관" },
+      { rank: 1, label: "잘 맞는 유형", animal: "turtle", name: "🐢 워밍업만 1시간 거북이", reason: "둘 다 서두르는 법이 없어. 재촉 없는 사이, 그 자체로 편안함.", place: "프라이빗 영화관" },
       { rank: 2, label: "비슷한 유형", animal: "sloth", name: "🦥 원정 경기 나무늘보", reason: "느긋한 페이스가 딱 맞음. 서로 재촉하지 않으니 오히려 더 편한 사이.", place: "족욕 카페" },
       { rank: 3, label: "다르지만 잘 맞는 유형", animal: "otter", name: "🦦 팀 분위기 수달", reason: "수달이 거북이 텐션 올려주고, 거북이가 수달 페이스 잡아줌.", place: "대형 오락실" }
     ]
@@ -742,7 +742,7 @@ const ANIMALS = {
     keywords: ["훈련 끝나도 못 감", "수다 본능", "탈의실 터줏대감", "인싸 기질", "공감 능력 만렙"],
     image: "탈의실_수다왕_펭귄.png",
     matches: [
-      { rank: 1, label: "같은 유형", animal: "penguin", name: "🐧 탈의실 수다왕 펭귄", reason: "말할 사람이 생겼다! 둘 다 수다 본능이라 대화가 끊길 일이 없어.", place: "수목원" },
+      { rank: 1, label: "잘 맞는 유형", animal: "penguin", name: "🐧 탈의실 수다왕 펭귄", reason: "말할 사람이 생겼다! 둘 다 수다 본능이라 대화가 끊길 일이 없어.", place: "수목원" },
       { rank: 2, label: "비슷한 유형", animal: "bear", name: "🐻 회식 절대 안 빠지는 불곰", reason: "사람 좋아하고 먹는 거 좋아하는 공통점. 같이 있으면 주변에 사람이 모임.", place: "베이킹 체험" },
       { rank: 3, label: "다르지만 잘 맞는 유형", animal: "lion", name: "🦁 카메라 앞의 사자", reason: "사자가 펭귄한테 집중력 불어넣어 줌. 펭귄은 사자 주변에 사람 모아줌.", place: "수족관" }
     ]
@@ -753,7 +753,7 @@ const ANIMALS = {
     keywords: ["식단 철저", "수면 시간 칼같이", "루틴 = 생명", "자기관리 끝판왕", "흐트러짐 없음"],
     image: "자기관리_호랑이.png",
     matches: [
-      { rank: 1, label: "같은 유형", animal: "tiger", name: "🐯 자기관리 호랑이", reason: "서로의 루틴 존중해주는 사이. 같이 있으면 자연스럽게 시너지가 남.", place: "자동차 극장" },
+      { rank: 1, label: "잘 맞는 유형", animal: "tiger", name: "🐯 자기관리 호랑이", reason: "서로의 루틴 존중해주는 사이. 같이 있으면 자연스럽게 시너지가 남.", place: "자동차 극장" },
       { rank: 2, label: "비슷한 유형", animal: "turtle", name: "🐢 워밍업만 1시간 거북이", reason: "둘 다 준비성 철저하고 루틴 중요시함. 계획 공유하는 것만으로도 시너지.", place: "음악 감상 카페" },
       { rank: 3, label: "다르지만 잘 맞는 유형", animal: "frog", name: "🐸 날씨 탓하는 개구리", reason: "호랑이가 개구리 자극하고, 개구리는 호랑이 너무 빡빡해지지 않게 풀어줌.", place: "번지점프 or 짚라인" }
     ]
@@ -764,7 +764,7 @@ const ANIMALS = {
     keywords: ["회식 개근상", "인간미 폭발", "먹는 거 진심", "팀워크 충만", "다음날 훈련도 개근"],
     image: "회식_절대_안_빠지는_불곰.png",
     matches: [
-      { rank: 1, label: "같은 유형", animal: "bear", name: "🐻 회식 절대 안 빠지는 불곰", reason: "회식 첫 번째 자리 두 개는 이미 예약된 거나 마찬가지. 찰떡 케미.", place: "오마카세" },
+      { rank: 1, label: "잘 맞는 유형", animal: "bear", name: "🐻 회식 절대 안 빠지는 불곰", reason: "회식 첫 번째 자리 두 개는 이미 예약된 거나 마찬가지. 찰떡 케미.", place: "오마카세" },
       { rank: 2, label: "비슷한 유형", animal: "penguin", name: "🐧 탈의실 수다왕 펭귄", reason: "사교성 비슷해서 같이 있으면 대화가 끊길 일이 없음.", place: "포장마차 or 야시장" },
       { rank: 3, label: "다르지만 잘 맞는 유형", animal: "sloth", name: "🦥 원정 경기 나무늘보", reason: "불곰이 나무늘보 챙겨서 데리고 다님. 불곰 덕분에 나무늘보 밖에 나옴.", place: "도예 공방" }
     ]
@@ -775,7 +775,7 @@ const ANIMALS = {
     keywords: ["분위기 메이커", "텐션 충전기", "먼저 말 거는 타입", "에너지 무한", "팀의 활력소"],
     image: "팀_분위기_수달.png",
     matches: [
-      { rank: 1, label: "같은 유형", animal: "otter", name: "🦦 팀 분위기 수달", reason: "에너지 맞는 둘이 만나면 그 공간 자체가 파티. 서로 치켜세워주는 궁합.", place: "코인 노래방" },
+      { rank: 1, label: "잘 맞는 유형", animal: "otter", name: "🦦 팀 분위기 수달", reason: "에너지 맞는 둘이 만나면 그 공간 자체가 파티. 서로 치켜세워주는 궁합.", place: "코인 노래방" },
       { rank: 2, label: "비슷한 유형", animal: "lion", name: "🦁 카메라 앞의 사자", reason: "둘 다 존재감 강하고 에너지 넘침. 같이 있으면 그 공간이 활기참.", place: "커스텀 공방" },
       { rank: 3, label: "다르지만 잘 맞는 유형", animal: "tiger", name: "🐯 자기관리 호랑이", reason: "수달이 분위기 만들고 호랑이가 방향 잡아줌. 수달은 에너지 낭비 줄이고 호랑이는 웃음 찾고.", place: "체험형 전시회" }
     ]
@@ -786,7 +786,7 @@ const ANIMALS = {
     keywords: ["핑계 장인", "컨디션 예민", "오늘은 좀 그래", "날씨 탓 전문가", "그래도 결국 함"],
     image: "날씨_탓하는_개구리.png",
     matches: [
-      { rank: 1, label: "같은 유형", animal: "frog", name: "🐸 날씨 탓하는 개구리", reason: "서로의 핑계를 판단 없이 들어주는 사이. \"맞아 오늘 진짜 날씨가 이상해\"", place: "만화카페" },
+      { rank: 1, label: "잘 맞는 유형", animal: "frog", name: "🐸 날씨 탓하는 개구리", reason: "서로의 핑계를 판단 없이 들어주는 사이. \"맞아 오늘 진짜 날씨가 이상해\"", place: "만화카페" },
       { rank: 2, label: "비슷한 유형", animal: "sloth", name: "🦥 원정 경기 나무늘보", reason: "핑계와 느긋함의 환상 조합. 서로 \"오늘은 쉬어도 돼\"를 주고받는 사이.", place: "한강 유람선" },
       { rank: 3, label: "다르지만 잘 맞는 유형", animal: "bear", name: "🐻 회식 절대 안 빠지는 불곰", reason: "불곰이 개구리 핑계 들어주면서도 결국 밖으로 끌고 나옴. 생각보다 즐거운 하루.", place: "롤러 스케이트장" }
     ]
@@ -797,7 +797,7 @@ const ANIMALS = {
     keywords: ["원정은 관광이지", "느긋함 그 자체", "쉬는 게 훈련", "방전 전문가", "일단 누워"],
     image: "원정_경기_나무늘보.png",
     matches: [
-      { rank: 1, label: "같은 유형", animal: "sloth", name: "🦥 원정 경기 나무늘보", reason: "말 안 해도 통하는 느긋함. 같이 있으면 아무것도 안 해도 불편하지 않은 사이.", place: "프라이빗 사우나" },
+      { rank: 1, label: "잘 맞는 유형", animal: "sloth", name: "🦥 원정 경기 나무늘보", reason: "말 안 해도 통하는 느긋함. 같이 있으면 아무것도 안 해도 불편하지 않은 사이.", place: "프라이빗 사우나" },
       { rank: 2, label: "비슷한 유형", animal: "frog", name: "🐸 날씨 탓하는 개구리", reason: "느슨함의 동질감. 서로 핑계 대주고 쉬어가는 걸 허락해주는 사이.", place: "루프탑 카페" },
       { rank: 3, label: "다르지만 잘 맞는 유형", animal: "penguin", name: "🐧 탈의실 수다왕 펭귄", reason: "펭귄이 나무늘보 텐션 올려줌. 나무늘보는 펭귄 덕분에 어느새 같이 수다 중.", place: "고궁 데이트" }
     ]
@@ -876,7 +876,7 @@ function showResult() {
   const data = ANIMALS[topAnimal];
 
   // 결과 제목에 이름 넣기
-  document.getElementById('resultTitle').innerHTML = `<span>${userName}</span>님의 훈련장 동물 유형은?`;
+  document.getElementById('resultTitle').innerHTML = `<span>${userName}</span> 님의 경기장 밖 모습은?`;
 
   // 캐릭터 정보
   document.getElementById('charImage').src = data.image;
