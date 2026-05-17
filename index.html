@@ -24,12 +24,14 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  body {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--cream);
-    min-height: 100vh;
-    overflow: hidden;
-  }
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--cream);
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  height: 100vh;
+}
 
   body::before {
     content: '';
@@ -44,7 +46,7 @@
     z-index: 0;
   }
 
-  .screen { display: none; position: fixed; inset: 0; overflow-y: auto; z-index: 1; }
+  .screen { display: none; position: absolute; inset: 0; overflow-y: auto; z-index: 1; }
   .screen.active { display: block; }
 
   /* ── 인트로 ── */
