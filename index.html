@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ALL ROUNDER | TRY♡UT x LOVE</title>
@@ -189,16 +188,15 @@
 
   .quiz-header { text-align: center; margin-bottom: 30px; }
 
-  .quiz-logo {
-    font-family: 'Bebas Neue', cursive;
+  .quiz-logo, .quiz-logo span {
+    font-family: 'Bebas Neue', cursive !important;
     font-size: 22px;
-    color: var(--pink);
     letter-spacing: 2px;
     margin-bottom: 16px;
   }
 
   .progress-wrap { background: var(--pink-light); border-radius: 10px; height: 8px; overflow: hidden; }
-  .progress-bar { height: 100%; background: var(--pink); border-radius: 10px; transition: width 0.4s ease; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--navy), var(--pink)); background-size: 600px 100%; border-radius: 10px; transition: width 0.4s ease; }
   .progress-text { font-size: 12px; color: var(--navy); opacity: 0.5; margin-top: 8px; text-align: right; }
 
   .question-card {
@@ -396,7 +394,7 @@
 
 <div id="quiz" class="screen">
   <div class="quiz-header">
-    <div class="quiz-logo">TRY♡UT × LOVE</div>
+    <div class="quiz-logo"><span style="color:var(--navy)">TRY</span><span style="color:var(--pink)">♡</span><span style="color:var(--navy)">UT</span> <span style="color:var(--pink)">× LOVE</span></div>
     <div class="progress-wrap">
       <div class="progress-bar" id="progressBar" style="width:0%"></div>
     </div>
