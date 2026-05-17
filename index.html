@@ -378,11 +378,11 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     animation: floatKw 3s ease-in-out infinite;
   }
-  .keyword-tag.kw0 { background: var(--pink-light); color: var(--pink); top: 2%; left: 2%; animation-delay: 0s; }
-  .keyword-tag.kw1 { background: var(--peach-light); color: #d4631a; top: 24%; right: 0%; animation-delay: 0.7s; }
-  .keyword-tag.kw2 { background: var(--mint-light); color: #2a8a72; bottom: 24%; left: 0%; animation-delay: 1.4s; }
-  .keyword-tag.kw3 { background: var(--lavender-light); color: #6a4fc8; bottom: 2%; right: 4%; animation-delay: 2.1s; }
-  .keyword-tag.kw4 { background: var(--yellow-light); color: #a07820; top: 4%; right: 10%; animation-delay: 2.8s; }
+  .keyword-tag.kw0 { background: var(--pink-light); color: var(--pink); top: 6%; left: -8px; animation-delay: 0s; }
+  .keyword-tag.kw1 { background: var(--peach-light); color: #d4631a; top: 30%; right: -8px; animation-delay: 0.7s; }
+  .keyword-tag.kw2 { background: var(--mint-light); color: #2a8a72; bottom: 30%; left: -8px; animation-delay: 1.4s; }
+  .keyword-tag.kw3 { background: var(--lavender-light); color: #6a4fc8; bottom: 6%; right: -4px; animation-delay: 2.1s; }
+  .keyword-tag.kw4 { background: var(--yellow-light); color: #a07820; top: 0%; left: 50%; transform: translateX(-50%); animation-delay: 2.8s; }
 
   .char-name {
     font-size: 22px;
@@ -514,7 +514,14 @@
 
   @keyframes floatKw {
     0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-7px); }
+    50% { transform: translateY(-6px); }
+  }
+  .keyword-tag.kw4 {
+    animation-name: floatKwCenter;
+  }
+  @keyframes floatKwCenter {
+    0%, 100% { transform: translateX(-50%) translateY(0px); }
+    50% { transform: translateX(-50%) translateY(-6px); }
   }
 
   /* ── 다운로드 버튼 ── */
@@ -976,18 +983,52 @@ async function downloadResult() {
   }
 
   try {
+    // 이미지를 base64로 변환해서 CORS 우회
+    const img = document.getElementById('charImage');
+    const originalSrc = img.src;
+    await new Promise((resolve, reject) => {
+      const tempImg = new Image();
+      tempImg.crossOrigin = 'anonymous';
+      tempImg.onload = () => {
+        const cvs = document.createElement('canvas');
+        cvs.width = tempImg.naturalWidth;
+        cvs.height = tempImg.naturalHeight;
+        cvs.getContext('2d').drawImage(tempImg, 0, 0);
+        try {
+          img.src = cvs.toDataURL('image/png');
+          resolve();
+        } catch(e) {
+          resolve(); // CORS 실패해도 진행
+        }
+      };
+      tempImg.onerror = () => resolve();
+      tempImg.src = originalSrc + '?t=' + Date.now();
+    });
+
     const canvas = await html2canvas(card, {
       scale: 2,
       useCORS: true,
+      allowTaint: true,
       backgroundColor: '#ffffff',
-      logging: false
+      logging: false,
+      onclone: (doc) => {
+        // 클론에서 키워드 애니메이션 정지
+        doc.querySelectorAll('.keyword-tag').forEach(el => {
+          el.style.animation = 'none';
+        });
+      }
     });
+
+    // 원본 src 복원
+    img.src = originalSrc;
+
     const link = document.createElement('a');
     link.download = `all_rounder_test_${userName}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
   } catch(e) {
     alert('이미지 저장에 실패했어요. 다시 시도해주세요.');
+    console.error(e);
   }
 
   btn.textContent = '결과 이미지 저장 📸';
