@@ -294,7 +294,7 @@
 
   .result-top {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     animation: fadeDown 0.5s ease both;
   }
 
@@ -323,12 +323,13 @@
   .character-card {
     background: white;
     border-radius: 28px;
-    padding: 36px 28px 28px;
+    padding: 28px 28px 32px;
     margin-bottom: 20px;
     box-shadow: 0 8px 40px rgba(27,42,74,0.1);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     animation: scaleIn 0.5s 0.1s ease both;
+    text-align: center;
   }
 
   .character-card::before {
@@ -336,63 +337,54 @@
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 6px;
+    border-radius: 28px 28px 0 0;
     background: linear-gradient(90deg, var(--pink), var(--navy));
   }
 
-  /* ── 이미지 + 키워드 레이아웃 ── */
-  .char-main-layout {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 24px;
-  }
-
-  .char-image-box {
-    flex-shrink: 0;
-    width: 150px;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* ── 이미지 + 키워드 둥둥 ── */
+  .char-image-wrap {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 20px;
   }
 
   .char-image {
-    width: 150px;
-    height: 150px;
+    width: 190px;
+    height: 190px;
     object-fit: contain;
-    filter: drop-shadow(0 6px 16px rgba(240,64,106,0.18));
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 8px 20px rgba(240,64,106,0.2));
+    z-index: 2;
   }
 
-  .char-keywords-side {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  .char-keywords {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
   }
 
   .keyword-tag {
-    font-size: 12px;
+    position: absolute;
+    font-size: 11px;
     font-weight: 700;
-    padding: 6px 14px;
+    padding: 5px 12px;
     border-radius: 20px;
     white-space: nowrap;
-    display: inline-block;
-    animation: fadeDown 0.4s ease both;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    animation: floatKw 3s ease-in-out infinite;
   }
-  .keyword-tag.kw0 { background: var(--pink-light); color: var(--pink); }
-  .keyword-tag.kw1 { background: var(--peach-light); color: #d4631a; }
-  .keyword-tag.kw2 { background: var(--mint-light); color: #2a8a72; }
-  .keyword-tag.kw3 { background: var(--lavender-light); color: #6a4fc8; }
-  .keyword-tag.kw4 { background: var(--yellow-light); color: #a07820; }
-
-  .keyword-tag:nth-child(1) { animation-delay: 0.1s; }
-  .keyword-tag:nth-child(2) { animation-delay: 0.2s; }
-  .keyword-tag:nth-child(3) { animation-delay: 0.3s; }
-  .keyword-tag:nth-child(4) { animation-delay: 0.4s; }
-  .keyword-tag:nth-child(5) { animation-delay: 0.5s; }
+  .keyword-tag.kw0 { background: var(--pink-light); color: var(--pink); top: 2%; left: 2%; animation-delay: 0s; }
+  .keyword-tag.kw1 { background: var(--peach-light); color: #d4631a; top: 24%; right: 0%; animation-delay: 0.7s; }
+  .keyword-tag.kw2 { background: var(--mint-light); color: #2a8a72; bottom: 24%; left: 0%; animation-delay: 1.4s; }
+  .keyword-tag.kw3 { background: var(--lavender-light); color: #6a4fc8; bottom: 2%; right: 4%; animation-delay: 2.1s; }
+  .keyword-tag.kw4 { background: var(--yellow-light); color: #a07820; top: 4%; right: 10%; animation-delay: 2.8s; }
 
   .char-name {
-    text-align: center;
     font-size: 22px;
     font-weight: 900;
     color: var(--navy);
@@ -400,7 +392,6 @@
   }
 
   .char-desc {
-    text-align: center;
     font-size: 14px;
     color: var(--navy);
     opacity: 0.6;
@@ -610,16 +601,16 @@
 <!-- 결과 -->
 <div id="result" class="screen">
   <div class="character-card" id="characterCard">
-    <div class="result-badge-wrap">
+    <div class="result-top">
       <div class="result-badge">YOUR RESULT</div>
+      <div class="result-title" id="resultTitle">님의 훈련장 동물 유형은?</div>
     </div>
-    <div class="result-title" id="resultTitle">님의 훈련장 동물 유형은?</div>
-    <div class="char-name" id="charName"></div>
-    <div class="char-desc" id="charDesc"></div>
     <div class="char-image-wrap">
       <img class="char-image" id="charImage" src="" alt="">
       <div class="char-keywords" id="charKeywords"></div>
     </div>
+    <div class="char-name" id="charName"></div>
+    <div class="char-desc" id="charDesc"></div>
   </div>
 
   <div class="match-section">
@@ -992,7 +983,7 @@ async function downloadResult() {
       logging: false
     });
     const link = document.createElement('a');
-    link.download = `tryout_love_결과.png`;
+    link.download = `all_rounder_test_${userName}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
   } catch(e) {
